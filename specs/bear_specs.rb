@@ -8,9 +8,9 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 class BearTest < MiniTest::Test
 
   def setup
-    @bear = Bear.new("Yogi", "Brown")
+    @bear = Bear.new("Yogi", "Grizzly")
     @fish1 = Fish.new("Harry")
-    @fish2 = Fish.new("Gazza")
+    @fish2 = Fish.new("Dory")
     @fish3 = Fish.new("Nemo")
 
     @fishes = [@fish1, @fish2, @fish3]
@@ -19,62 +19,55 @@ class BearTest < MiniTest::Test
   end
 
   def test_get_bear_name
-    # @bear = Bear.new("Yogi", "Brown")
     assert_equal("Yogi", @bear.name)
   end
 
   def test_get_bear_type
-    # @bear = Bear.new("Yogi", "Brown")
-    assert_equal("Brown", @bear.type)
+    assert_equal("Grizzly", @bear.type)
+  end
+
+  def test_roar
+    assert_equal("ROOOAR!!!", @bear.roar)
   end
 
   def test_take_fish_from_river
-    # @fish1 = Fish.new("Harry")
-    # @fish2 = Fish.new("Gazza")
-    # @fish3 = Fish.new("Nemo")
-    #
-    # @fishes = [@fish1, @fish2, @fish3]
-    #
-    # @river = River.new("Amazon", @fishes)
-    # @bear = Bear.new("Yogi", "Brown")
-
-    # @bear.eat_fish
-    #
-    # ate_fish = @river.lose_a_fish
-    # @bear.stomach.push(ate_fish.name)
-
     @river.lose_a_fish
-    assert_equal(2, @river.fishes.length)
-
-
-    # assert_equal(1, @bear.stomach.length)
-    # assert_equal("Nemo", ate_fish.name)
+    assert_equal(2, @river.fish_count)
   end
 
-    def test_eat_fish
-    #
-    #   ate_fish = @river.lose_a_fish
-    #   @bear.eat_fish(ate_fish)
-    #
-    #   assert_equal(1, @bear.stomach.length)
-    #   assert_equal("Nemo", ate_fish.name)
-
-
+  def test_eat_fish
     ate_fish = @river.lose_a_fish
     @bear.eat_fish(ate_fish.name)
-    # @bear.stomach.push(ate_fish.name)
 
-    # @river.lose_a_fish
-    assert_equal(2, @river.fishes.length)
-
-
-    assert_equal(1, @bear.stomach.length)
+    assert_equal(2, @river.fish_count)
+    assert_equal(1, @bear.food_count)
     assert_equal("Nemo", ate_fish.name)
-    end
-    #
-    # ate_fish = @river.lose_a_fish
-    # @bear.eat_fish(ate_fish)
-    #
-    # p ate_fish
+  end
 
+  def test_bear_ate_one_fish_from_river
+    ate_fish = @river.lose_a_fish
+    @bear.eat_fish(ate_fish.name)
+
+    assert_equal(2, @river.fish_count)
+    assert_equal(1, @bear.food_count)
+  end
+
+
+  def test_grizzly_bear_called_yogi_ate_2_fish_called_Nemo_and_Dory_from_Amazon
+
+    first_meal = @river.lose_a_fish
+    @bear.eat_fish(first_meal)
+    assert_equal(2, @river.fish_count)
+    assert_equal(1, @bear.food_count)
+
+    second_meal = @river.lose_a_fish
+    @bear.eat_fish(second_meal)
+
+    assert_equal("Yogi", @bear.name)
+    assert_equal("Grizzly", @bear.type)
+    assert_equal("Amazon", @river.name)
+    assert_equal(1, @river.fish_count)
+    assert_equal(2, @bear.food_count)
+    assert_equal(["Nemo", "Dory"], @bear.who_did_bear_eat)
+  end
 end

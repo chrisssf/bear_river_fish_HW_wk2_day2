@@ -12,9 +12,21 @@ class Bear
     @stomach.push(caught_fish)
   end
 
+  def food_count
+    @stomach.length
+  end
+
+  def who_did_bear_eat
+    eaten_fish_names = []
+    for fish in @stomach
+      fish = fish.name
+      eaten_fish_names.push(fish)
+    end
+    return eaten_fish_names
+  end
+
+  def roar
+    return "ROOOAR!!!"
+  end
+
 end
-
-
-# @bear = Bear.new("Yogi", "Brown")
-#
-# p @bear.stomach
